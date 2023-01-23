@@ -51,7 +51,7 @@ const CreatePin = ({ user }) => {
   };
 
   const savePin = () => {
-    if(title && about && destination && imageAsset?._id && category) {
+    if (title && about && destination && imageAsset?._id && category) {
       const doc = {
         _type: 'pin',
         title,
@@ -93,7 +93,7 @@ const CreatePin = ({ user }) => {
       <div className="flex lg:flex-row flex-col justify-center items-center bg-white lg:p-5 p-3 lg:w-4/5 w-full">
         <div className="bg-secondaryColor p-3 flex flex-0.7 w-full">
           <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-420">
-            {loading && <Spinner />}
+            {loading && (<Spinner />)}
             {wrongImageType && <p>Error: Wrong Image Type</p>}
             {!imageAsset ? (
               <label>
@@ -110,7 +110,7 @@ const CreatePin = ({ user }) => {
                 </div>
                 <input
                   type="file"
-                  name="Upload Image"
+                  name="upload-image"
                   onChange={uploadImage}
                   className="w-0 h-0"
                 />
@@ -160,7 +160,7 @@ const CreatePin = ({ user }) => {
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
           <input
-            type="text"
+            type="url"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             placeholder="Add a destination link"
@@ -175,7 +175,7 @@ const CreatePin = ({ user }) => {
                 onChange={(e) => setCategory(e.target.value)}
                 className="outline-none w-4/5 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
               >
-                <option value="other" className="bg-white">
+                <option value="others" className="bg-white">
                   Select Category
                 </option>
 

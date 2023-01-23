@@ -9,16 +9,14 @@ import { fetchUser } from "../utils/fetchUser";
 
 const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
   const [postHovered, setPostHovered] = useState(false);
-  const [savingPost, setSavingPost] = useState(false);
   const user = fetchUser();
 
-  let alreadySaved = save?.filter((item) => item?.postedBy?._id === user?.length);
+  const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user?.sub))?.length;
 
-  alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
+  // alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
 
   const savePin = (id) => {
-    if (alreadySaved?.length === 0) {
-      setSavingPost(true);
+    if (!alreadySaved) {
 
       client 
       .patch(id)
@@ -34,7 +32,6 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
       .commit()
       .then(() => {
         window.location.reload();
-        setSavingPost(false);
       })
     }
   }
@@ -78,7 +75,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   <MdDownloadForOffline />
                 </a>
               </div>
-              {alreadySaved.length !== 0 ? (
+              {alreadySaved ? (
                   <button
                    type="button" className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outlined-none">{save?.length} Saved</button>
                 ) : (
@@ -104,7 +101,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   {destination.length > 15 ? `${destination.slice(0, 15)}...` : destination}
                 </a>
               )}
-              {postedBy?._id === user.sub && (
+              {postedBy?._id === user?.sub && (
                 <button
                 type="button"
                 onClick={(e) => {

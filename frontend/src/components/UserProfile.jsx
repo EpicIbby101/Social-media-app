@@ -11,21 +11,19 @@ import {
 import { client } from "../client";
 import MasonryLayout from "./MasonryLayout";
 import Spinner from "./Spinner";
-import { fetchUser } from "../utils/fetchUser";
 
-const activeBtnStyles = 'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none'
-const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none'
+const activeBtnStyles =
+  "bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none";
+const notActiveBtnStyles =
+  "bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none";
 
 const UserProfile = () => {
   const [user, setUser] = useState();
-  const [pins, setPins] = useState();
-  const [text, setText] = useState("created");
+  const [pins, setPins] = useState(null);
+  const [text, setText] = useState("Created");
   const [activeBtn, setActiveBtn] = useState("created");
   const navigate = useNavigate();
   const { userId } = useParams();
-
-
-  // const User = fetchUser();
 
   const logout = () => {
     googleLogout();
@@ -38,34 +36,29 @@ const UserProfile = () => {
   const randomImage =
     "https://source.unsplash.com/1600x900/?nature,photography,technology,cyberpunk,beach,cities";
 
-
-
   useEffect(() => {
     const query = userQuery(userId);
-
     client.fetch(query).then((data) => {
+      console.log(data[0]);
       setUser(data[0]);
     });
   }, [userId]);
 
   useEffect(() => {
-    if(text === 'created') {
-      const createdPinsQuery = userCreatedPinsQuery(userId)
+    if (text === "Created") {
+      const createdPinsQuery = userCreatedPinsQuery(userId);
 
-      client.fetch(createdPinsQuery)
-      .then((data) => {
+      client.fetch(createdPinsQuery).then((data) => {
         setPins(data);
-      })
+      });
     } else {
-      const savedPinsQuery = userSavedPinsQuery(userId)
+      const savedPinsQuery = userSavedPinsQuery(userId);
 
-      client.fetch(savedPinsQuery)
-      .then((data) => {
+      client.fetch(savedPinsQuery).then((data) => {
         setPins(data);
-      })
-
+      });
     }
-  }, [text, userId])
+  }, [text, userId]);
 
   if (!user) {
     return <Spinner message="Loading profile..." />;
@@ -108,10 +101,10 @@ const UserProfile = () => {
               setText(e.target.textContent);
               setActiveBtn("created");
             }}
-            className={`${
-              activeBtn === "created" ? activeBtnStyles : notActiveBtnStyles
-            }`}
-          >
+              className={`${
+                activeBtn === "created" ? activeBtnStyles : notActiveBtnStyles
+              }`}
+            >
               Created
             </button>
 
@@ -125,13 +118,14 @@ const UserProfile = () => {
               activeBtn === "saved" ? activeBtnStyles : notActiveBtnStyles
             }`}
           >
-              Saved
-            </button>
+            Saved
+          </button>
           </div>
+          
           {pins?.length ? (
-          <div className="px-2">
-            <MasonryLayout pins={pins} />
-          </div>
+            <div className="px-2">
+              <MasonryLayout pins={pins} />
+            </div>
           ) : (
             <div className="flex justify-center font-bold items-center w-full text-xl mt-2">
               No pins found...

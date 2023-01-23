@@ -5,6 +5,7 @@ import PinDetail from '../components/PinDetail'
 import CreatePin from '../components/CreatePin'
 import Search from '../components/Search'
 import Feed from '../components/Feed'
+import Footer from '../components/Footer'
 
 const Pins = ({ user }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,8 +22,8 @@ const Pins = ({ user }) => {
           <Route path='/pin-detail/:pinId' element={<PinDetail user={user && user }/>} />
           <Route path='/create-pin' element={<CreatePin user={user && user} />} />
           <Route path='/search' element={<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
-
         </Routes>
+        <Footer />
 
       </div>
       
