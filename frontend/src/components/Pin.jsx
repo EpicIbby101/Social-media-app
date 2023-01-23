@@ -11,7 +11,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
   const [postHovered, setPostHovered] = useState(false);
   const user = fetchUser();
 
-  const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user?.sub))?.length;
+  const alreadySaved = !!(save?.filter((item) => item?.postedBy?._id === user?.sub))?.length;
 
   // alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
 
